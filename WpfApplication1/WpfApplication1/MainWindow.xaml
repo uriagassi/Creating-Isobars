@@ -1,0 +1,186 @@
+﻿<Window x:Class="WpfApplication1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:UriAgassi.Isobars"
+        Title="MainWindow">
+    <Window.Resources>
+        <ResourceDictionary>
+            <local:ScaleMarginConverter x:Key="ScaleMarginConverter"/>
+            <local:ConditionalConverter x:Key="ConditionalConverter"/>
+            <local:PointsToPathConverter x:Key="PointsToPathConverter"/>
+        </ResourceDictionary>
+    </Window.Resources>
+    <StackPanel Orientation="Horizontal">
+        <Grid Margin="3">
+            <ItemsControl ItemsSource="{Binding RawData}" Visibility="{Binding IsChecked, ElementName=StageI, Converter={StaticResource ConditionalConverter}, ConverterParameter='True,Visible,Collapsed'}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <ItemsControl ItemsSource="{Binding}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Path Data="M 0,36 L0,0 L36,0" Stroke="Gray" Margin="7,7,0,0"/>
+                                        <Border BorderBrush="Gray" CornerRadius="7" Height="14" BorderThickness="1" Background="Gray" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                            <TextBlock Text="{Binding StringFormat='\{0:0.0\}'}" FontSize="8" Margin="1,0" Foreground="White"/>
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <ItemsControl ItemsSource="{Binding HGrid}" Visibility="{Binding IsChecked, ElementName=StageIII, Converter={StaticResource ConditionalConverter}, ConverterParameter='True,Visible,Collapsed'}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <ItemsControl ItemsSource="{Binding}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <ItemsControl ItemsSource="{Binding}" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Path Data="M 0,0 L0,14 L-3,11 L3,11 L0,14" Stroke="Gray" Margin="{Binding Location.Y, Converter={StaticResource ScaleMarginConverter}, ConverterParameter='43,0,0,0'}">
+                                                    <Path.RenderTransform>
+                                                        <RotateTransform Angle="{Binding Direction, Converter={StaticResource ConditionalConverter}, ConverterParameter='North,180,0'}" CenterY="7"/>
+                                                    </Path.RenderTransform>
+                                                </Path>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <Grid/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                    </ItemsControl>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Grid Height="43" Margin="7,0,0,0"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <ItemsControl ItemsSource="{Binding VGrid}"  ClipToBounds="False" Visibility="{Binding IsChecked, ElementName=StageIII, Converter={StaticResource ConditionalConverter}, ConverterParameter='True,Visible,Collapsed'}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <ItemsControl ItemsSource="{Binding}"  ClipToBounds="False">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <ItemsControl ItemsSource="{Binding}" HorizontalAlignment="Left" VerticalAlignment="Top" ClipToBounds="False">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Path Data="M 0,0 L14,0 L11,-3 L11,3 L14,0" Stroke="Gray" Margin="{Binding Location.X, Converter={StaticResource ScaleMarginConverter}, ConverterParameter='0,43,0,0'}">
+                                                    <Path.RenderTransform>
+                                                        <RotateTransform Angle="{Binding Direction, Converter={StaticResource ConditionalConverter}, ConverterParameter='West,180,0'}" CenterX="7"/>
+                                                    </Path.RenderTransform>
+                                                </Path>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <Grid Height="36" Width="43" Margin="0,7,0,0" ClipToBounds="False"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                    </ItemsControl>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <ItemsControl ItemsSource="{Binding HGrid}" Visibility="{Binding IsChecked, ElementName=StageII, Converter={StaticResource ConditionalConverter}, ConverterParameter='True,Visible,Collapsed'}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <ItemsControl ItemsSource="{Binding}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Height="43" Width="43">
+                                        <ItemsControl ItemsSource="{Binding}" HorizontalAlignment="Center" VerticalAlignment="Top">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Path Data="M 0,0 L9,14" Stroke="Gray"/>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Horizontal"/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <ItemsControl ItemsSource="{Binding VGrid}" Visibility="{Binding IsChecked, ElementName=StageII, Converter={StaticResource ConditionalConverter}, ConverterParameter='True,Visible,Collapsed'}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <ItemsControl ItemsSource="{Binding}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Height="43" Width="43">
+                                        <ItemsControl ItemsSource="{Binding}" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Path Data="M 0,0 L9,14" Stroke="Gray" Margin="3,10"/>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+
+                                        </ItemsControl>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <ItemsControl ItemsSource="{Binding Isobars}" Visibility="{Binding IsChecked, ElementName=StageIV, Converter={StaticResource ConditionalConverter}, ConverterParameter='True,Visible,Collapsed'}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Grid Margin="7"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Path Data="{Binding Points, Converter={StaticResource PointsToPathConverter}, ConverterParameter='43,M\{0\}'}" Stroke="Black"/>
+                            <Path Data="{Binding Points, Converter={StaticResource PointsToPathConverter}, ConverterParameter='43,M\{0\}Z'}" Stroke="Black" Visibility="{Binding IsClosed, Converter={StaticResource ConditionalConverter}, ConverterParameter='True,Visible,Collapsed'}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+        <StackPanel>
+            <CheckBox x:Name="StageI" IsChecked="True">Stage I</CheckBox>
+            <CheckBox x:Name="StageII">Stage II</CheckBox>
+            <CheckBox x:Name="StageIII">Stage III</CheckBox>
+            <CheckBox x:Name="StageIV">Stage IV</CheckBox>
+        </StackPanel>
+    </StackPanel>
+</Window>
