@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using UriAgassi.Isobars.Algo;
+using System.Collections.Generic;
 
 namespace UriAgassi.Isobars
 {
@@ -16,9 +17,9 @@ namespace UriAgassi.Isobars
             }
         }
 
-        private IsobarPoint[][][] _HGrid, _VGrid;
+        private IEnumerable<IsobarPoint>[][] _HGrid, _VGrid;
 
-        public IsobarPoint[][][] HGrid
+        public IEnumerable<IsobarPoint>[][] HGrid
         {
             get { return _HGrid; }
             set
@@ -28,7 +29,7 @@ namespace UriAgassi.Isobars
             }
         }
 
-        public IsobarPoint[][][] VGrid
+        public IEnumerable<IsobarPoint>[][] VGrid
         {
             get { return _VGrid; }
             set

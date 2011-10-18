@@ -16,7 +16,7 @@ namespace UriAgassi.Isobars.Algo
 
         public IsobarDirection Direction { get; set; }
 
-        public IsobarPoint FindNext(IsobarPoint[][][] vgrid, IsobarPoint[][][] hgrid)
+        public IsobarPoint FindNext(IEnumerable<IsobarPoint>[][] vgrid, IEnumerable<IsobarPoint>[][] hgrid)
         {
             IEnumerable<IsobarPoint> candidates = null;
             switch (Direction)

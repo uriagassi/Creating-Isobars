@@ -7,14 +7,14 @@ namespace UriAgassi.Isobars.Algo
 {
     public class Isobar
     {
-        public Isobar(IsobarPoint first, IsobarPoint[][][] vgrid, IsobarPoint[][][] hgrid, bool isClosed)
+        public Isobar(IsobarPoint first, IEnumerable<IsobarPoint>[][] vgrid, IEnumerable<IsobarPoint>[][] hgrid, bool isClosed)
         {
             Value = first.Value;
             IsClosed = isClosed;
             Points = GetPoints(first, vgrid, hgrid).ToArray();
         }
 
-        private IEnumerable<IsobarPoint> GetPoints(IsobarPoint first, IsobarPoint[][][] vgrid, IsobarPoint[][][] hgrid)
+        private IEnumerable<IsobarPoint> GetPoints(IsobarPoint first, IEnumerable<IsobarPoint>[][] vgrid, IEnumerable<IsobarPoint>[][] hgrid)
         {
             first.Parent = this;
             yield return first;
@@ -33,23 +33,23 @@ namespace UriAgassi.Isobars.Algo
 
         public bool IsClosed { get; private set; }
 
-        public static IEnumerable<Isobar> CreateIsobars(double[][] data, out IsobarPoint[][][] hgrid, out IsobarPoint[][][] vgrid)
+        public static IEnumerable<Isobar> CreateIsobars(double[][] data, out IEnumerable<IsobarPoint>[][] hgrid, out IEnumerable<IsobarPoint>[][] vgrid)
         {
             if (data == null)
             {
                 hgrid = vgrid = null;
                 return null;
             }
-            hgrid = new IsobarPoint[data.Length][][];
-            vgrid = new IsobarPoint[data.Length - 1][][];
+            hgrid = new IEnumerable<IsobarPoint>[data.Length][];
+            vgrid = new IEnumerable<IsobarPoint>[data.Length - 1][];
             for (int x = 0; x < data.Length; x++)
             {
                 if (x != data.Length - 1)
                 {
-                    vgrid[x] = new IsobarPoint[data[x].Length][];
+                    vgrid[x] = new IEnumerable<IsobarPoint>[data[x].Length];
                 }
 
-                hgrid[x] = new IsobarPoint[data[x].Length - 1][];
+                hgrid[x] = new IEnumerable<IsobarPoint>[data[x].Length - 1];
                 for (int y = 0; y < data[x].Length; y++)
                 {
                     var value = data[x][y];
@@ -63,7 +63,7 @@ namespace UriAgassi.Isobars.Algo
                                     Point((x - (v - value) / (data[x - 1][y] - value)), y),
                                 Direction = (value > data[x - 1][y]) ? IsobarDirection.East : IsobarDirection.West,
                                 Value = v
-                            }).ToArray();
+                            }).ToList();
                     }
                     if (y < data[x].Length - 1)
                     {
@@ -74,7 +74,7 @@ namespace UriAgassi.Isobars.Algo
                                 Location = new Point(x,  (y + (v - value) / (data[x][y + 1] - value))),
                                 Direction = (value > data[x][y + 1]) ? IsobarDirection.South : IsobarDirection.North,
                                 Value = v
-                            }).ToArray();
+                            }).ToList();
                     }
                 }
             }
@@ -82,7 +82,7 @@ namespace UriAgassi.Isobars.Algo
             return GenerateIsobars(vgrid, hgrid);
         }
 
-        private static IEnumerable<Isobar> GenerateIsobars(IsobarPoint[][][] vgrid, IsobarPoint[][][] hgrid)
+        private static IEnumerable<Isobar> GenerateIsobars(IEnumerable<IsobarPoint>[][] vgrid, IEnumerable<IsobarPoint>[][] hgrid)
         {
             // iterate the frame
             foreach (var l in vgrid)
